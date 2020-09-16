@@ -1,0 +1,4 @@
+TRUNCATE  
+  "users",
+  "items"
+RESTART IDENTITY CASCADE

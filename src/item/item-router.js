@@ -60,11 +60,11 @@ itemsRouter
     .route("/:id")
     .all((req, res, next) => {
       const { id } = req.params
-      console.log(req.body)
       const knexInstance = req.app.get("db");
       ItemsService.getById(knexInstance, id)
-        .then((items) => {
-        res.status(200).json();
+        .then((item) => {
+        console.log(item)
+        res.status(200).json(item);
         next();
         })
       //   .catch(next)

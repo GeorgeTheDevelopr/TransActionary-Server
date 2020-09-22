@@ -9,7 +9,7 @@ const ItemsService = {
 
   getById(db, id) {
     return db.from("items").select("*").where("id", id).first()
-    .then(result => console.log(result))
+    // .then(result => console.log(result))
   },
 
   createItem(db, newItem) {

@@ -11,6 +11,8 @@ const serializeItem = (items) => ({
   vendor: xss(items.vendor),
   items: xss(items.items),
   fullPrice: xss(items.full_price),
+  altId: items.alt_id,
+  altId2: items.alt_id2,
   ownerId: items.owner_id
 });
 

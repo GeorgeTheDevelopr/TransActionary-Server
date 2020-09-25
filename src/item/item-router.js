@@ -65,7 +65,6 @@ itemsRouter
       const knexInstance = req.app.get("db");
       ItemsService.getById(knexInstance, id)
         .then((item) => {
-        console.log(item)
         res.status(200).json(item);
         next();
         })

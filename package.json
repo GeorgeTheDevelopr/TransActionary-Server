@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed-transactionary": "psql -U postgres -d transactionary -f ./seed/seed.virtual-desk_tables.sql",
     "migrate": "postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test npm run migrate",
     "migrate:production": "heroku run npm run migrate",
     "test": "mocha --require test/setup.js --watch",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    // "predeploy": "npm run build",
-    "postdeploy": "npm run migrate:production",
-    "deploy": "git push heroku master"
+    "predeploy": "npm audit",
+    "deploy": "git push heroku master",
+    "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
   "engines": {

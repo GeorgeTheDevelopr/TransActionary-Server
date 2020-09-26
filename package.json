@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "seed-transactionary": "psql -U postgres -d transactionary -f ./seed/seed.virtual-desk_tables.sql",
+    "seed-transactionary": "psql -U postgres -d transactionary -f ./seed/seed.transactionary_tables.sql",
     "migrate": "postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test npm run migrate",
     "migrate:production": "heroku run npm run migrate",

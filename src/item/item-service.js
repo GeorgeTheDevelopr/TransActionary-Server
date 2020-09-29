@@ -28,6 +28,15 @@ const ItemsService = {
       .returning("*")
       .then((rows) => rows[0]);
   },
+
+  deleteItem(db, id) {
+    return db('items')
+    .where({ id })
+    .delete()
+    .then((rows) => {
+      return rows[0]
+    });
+  },
 };
 
 module.exports = ItemsService;

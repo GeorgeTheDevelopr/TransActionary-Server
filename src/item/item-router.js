@@ -16,12 +16,18 @@ const serializeItem = (items) => ({
   ownerId: items.owner_id
 });
 
+// Root
 itemsRouter
   .route("/")
   .get((req, res, next) => {
     const knexInstance = req.app.get("db");
     ItemsService.getAllItems(knexInstance)
       .then((items) => {
+        if (!items) {
+          return res.status(404).json({
+            error: {message: `Items doesn't exist` }
+          })
+        }
         res.status(200).json(items.map(serializeItem));
       })
       .catch(next);
@@ -41,49 +47,43 @@ itemsRouter
           error: { message: `Missing '${key}' in request body` },
         });
 
-    ItemsService.createItem(req.app.get("db"), newItem)
-      .then((items) => {
-        res.status(201).location(`/item/${items.id}`).json(items);
-      })
-      .catch(next);
-  });
-
-  itemsRouter.route("/by_user").get(requireAuth, (req, res, next) => {
-    const knexInstance = req.app.get("db");
-    ItemsService.getAllItemsByUser(knexInstance, req.user.id)
-      .then((items) => {
-        res.status(200).json(items.map(serializeItem));
-      })
-      .catch(next);
+      ItemsService.createItem(req.app.get("db"), newItem)
+        .then((items) => {
+          res.status(201).location(`/items/${items.id}`).json(items);
+        })
+        .catch(next);
   });
   
-  // EACH ITEM
+  // By ID
   itemsRouter
     .route("/:id")
     .all((req, res, next) => {
       const { id } = req.params
       const knexInstance = req.app.get("db");
+      
       ItemsService.getById(knexInstance, id)
         .then((item) => {
+          if (!item) {
+            return res.status(404).json({
+              error: {message: `Item doesn't exist` }
+            })
+          }
         res.status(200).json(item);
         next();
         })
-      //   .catch(next)
-        
- })
-    .patch(jsonParser, requireAuth, (req, res) => {
-      const updatedItem = {
-        owner_id: req.user.id,
-        items: req.user.items,
-        full_price: req.user.full_price
-      };
-  
-      ItemsService.updateItem(
-        req.app.get("db"),
-        req.params.id,
-        updatedItem
-      ).then((item) => res.status(200).json(serializeItem(item)));
-    });
+        .catch(next)       
+    })
+
+    .delete((req, res, next) => {
+      const { id } = req.params
+      const knexInstance = req.app.get('db')
+
+      ItemsService.deleteItem(knexInstance, id)
+        .then(() => {
+          res.status(204)
+          next();
+          })
+      });
 
  module.exports = itemsRouter;
     

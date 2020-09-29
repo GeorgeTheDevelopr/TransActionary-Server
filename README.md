@@ -2,7 +2,7 @@
 
 ## George Brown
 
-[Virtual Desk Live Site](https://virtual-desk.vercel.app/)
+[TransActionary](https://transactionary-client.vercel.app/)
 
 ## Table of Contents
 
@@ -205,7 +205,7 @@ Returns 201 and JSON data about new item
 
 - **Data Params**
 
-  - **Required:** `{ subject, question, date_due }`
+  - **Required:** `{ vendor, items, full_price }`
   - **Required:** `{Authorization", Bearer ${bearerToken}}`
 
 - **Success Response**
